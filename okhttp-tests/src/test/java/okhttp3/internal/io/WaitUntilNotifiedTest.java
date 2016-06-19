@@ -45,15 +45,15 @@ public final class WaitUntilNotifiedTest {
           WaitUntilNotifiedTest.this.notify();
         }
       }
-    }, 250, TimeUnit.MILLISECONDS);
+    }, 500, TimeUnit.MILLISECONDS);
 
     Pipe.waitUntilNotified(this, timeout);
-    assertElapsed(250.0, start);
+    assertElapsed(500.0, start);
   }
 
   @Test public synchronized void timeout() throws Exception {
     Timeout timeout = new Timeout();
-    timeout.timeout(250, TimeUnit.MILLISECONDS);
+    timeout.timeout(500, TimeUnit.MILLISECONDS);
     double start = now();
     try {
       Pipe.waitUntilNotified(this, timeout);
@@ -61,12 +61,12 @@ public final class WaitUntilNotifiedTest {
     } catch (InterruptedIOException expected) {
       assertEquals("timeout", expected.getMessage());
     }
-    assertElapsed(250.0, start);
+    assertElapsed(500.0, start);
   }
 
   @Test public synchronized void deadline() throws Exception {
     Timeout timeout = new Timeout();
-    timeout.deadline(250, TimeUnit.MILLISECONDS);
+    timeout.deadline(500, TimeUnit.MILLISECONDS);
     double start = now();
     try {
       Pipe.waitUntilNotified(this, timeout);
@@ -74,13 +74,13 @@ public final class WaitUntilNotifiedTest {
     } catch (InterruptedIOException expected) {
       assertEquals("timeout", expected.getMessage());
     }
-    assertElapsed(250.0, start);
+    assertElapsed(500.0, start);
   }
 
   @Test public synchronized void deadlineBeforeTimeout() throws Exception {
     Timeout timeout = new Timeout();
     timeout.timeout(5000, TimeUnit.MILLISECONDS);
-    timeout.deadline(250, TimeUnit.MILLISECONDS);
+    timeout.deadline(500, TimeUnit.MILLISECONDS);
     double start = now();
     try {
       Pipe.waitUntilNotified(this, timeout);
@@ -88,12 +88,12 @@ public final class WaitUntilNotifiedTest {
     } catch (InterruptedIOException expected) {
       assertEquals("timeout", expected.getMessage());
     }
-    assertElapsed(250.0, start);
+    assertElapsed(500.0, start);
   }
 
   @Test public synchronized void timeoutBeforeDeadline() throws Exception {
     Timeout timeout = new Timeout();
-    timeout.timeout(250, TimeUnit.MILLISECONDS);
+    timeout.timeout(500, TimeUnit.MILLISECONDS);
     timeout.deadline(5000, TimeUnit.MILLISECONDS);
     double start = now();
     try {
@@ -102,7 +102,7 @@ public final class WaitUntilNotifiedTest {
     } catch (InterruptedIOException expected) {
       assertEquals("timeout", expected.getMessage());
     }
-    assertElapsed(250.0, start);
+    assertElapsed(500.0, start);
   }
 
   @Test public synchronized void deadlineAlreadyReached() throws Exception {
@@ -139,9 +139,9 @@ public final class WaitUntilNotifiedTest {
 
   /**
    * Fails the test unless the time from start until now is duration, accepting differences in
-   * -50..+150 milliseconds.
+   * -50..+250 milliseconds.
    */
   private void assertElapsed(double duration, double start) {
-    assertEquals(duration, now() - start + 50d, 100.0);
+    assertEquals(duration, now() - start + 100d, 150.0);
   }
 }
